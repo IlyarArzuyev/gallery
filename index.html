@@ -2,22 +2,22 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <title>Галерея картинок</title>
+  <title>Моя галерея</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #fafafa;
+      background: #f8f8f8;
       margin: 0;
       padding: 20px;
     }
     h1 {
       text-align: center;
+      margin-bottom: 30px;
     }
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
-      margin-top: 30px;
     }
     .card {
       background: white;
@@ -25,6 +25,10 @@
       overflow: hidden;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       text-align: center;
+      transition: 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.03);
     }
     .card img {
       width: 100%;
@@ -39,6 +43,7 @@
       padding: 10px;
       cursor: pointer;
       font-size: 14px;
+      transition: 0.3s;
     }
     .card button:hover {
       background: #0056b3;
@@ -49,38 +54,40 @@
   </style>
 </head>
 <body>
-  <h1>Моя галерея</h1>
+  <h1>Галерея изображений</h1>
 
   <div class="gallery" id="gallery"></div>
 
   <script>
-    // 🔹 Укажи здесь имена своих файлов из папки images/
+    // 🔹 Укажи здесь свои файлы из папки /images/
     const imageFiles = [
       "photo1.jpeg",
-      "photo2.png",
-      "photo3.jpg",
-      "photo4.webp"
+      "photo2.jpeg",
+      "photo3.png"
     ];
+
+    // 🔹 Укажи адрес своего GitHub Pages (или домен)
+    const baseURL = "https://ilyararzuyev.github.io/gallery/images/";
 
     const gallery = document.getElementById("gallery");
 
     imageFiles.forEach(filename => {
-      const filePath = `images/${filename}`;
+      const imageUrl = baseURL + filename;
       const card = document.createElement("div");
       card.className = "card";
       card.innerHTML = `
-        <img src="${filePath}" alt="${filename}">
-        <button onclick="copyLink('${filePath}', this)">📋 Копировать путь</button>
+        <img src="${imageUrl}" alt="${filename}">
+        <button onclick="copyLink('${imageUrl}', this)">📋 Копировать URL</button>
       `;
       gallery.appendChild(card);
     });
 
-    function copyLink(path, btn) {
-      navigator.clipboard.writeText(path).then(() => {
+    function copyLink(url, btn) {
+      navigator.clipboard.writeText(url).then(() => {
         btn.textContent = "✅ Скопировано!";
         btn.classList.add("copied");
         setTimeout(() => {
-          btn.textContent = "📋 Копировать путь";
+          btn.textContent = "📋 Копировать URL";
           btn.classList.remove("copied");
         }, 1500);
       });
