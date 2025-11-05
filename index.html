@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Галерея картинок</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .card button {
+      width: 100%;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .card button:hover {
+      background: #0056b3;
+    }
+    .copied {
+      background: #28a745 !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>Моя галерея</h1>
+
+  <div class="gallery" id="gallery"></div>
+
+  <script>
+    // 🔹 Укажи здесь имена своих файлов из папки images/
+    const imageFiles = [
+      "photo1.jpeg",
+      "photo2.png",
+      "photo3.jpg",
+      "photo4.webp"
+    ];
+
+    const gallery = document.getElementById("gallery");
+
+    imageFiles.forEach(filename => {
+      const filePath = `images/${filename}`;
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <img src="${filePath}" alt="${filename}">
+        <button onclick="copyLink('${filePath}', this)">📋 Копировать путь</button>
+      `;
+      gallery.appendChild(card);
+    });
+
+    function copyLink(path, btn) {
+      navigator.clipboard.writeText(path).then(() => {
+        btn.textContent = "✅ Скопировано!";
+        btn.classList.add("copied");
+        setTimeout(() => {
+          btn.textContent = "📋 Копировать путь";
+          btn.classList.remove("copied");
+        }, 1500);
+      });
+    }
+  </script>
+</body>
+</html>
